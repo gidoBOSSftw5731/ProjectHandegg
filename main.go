@@ -11,6 +11,7 @@ import (
 )
 
 // userCreds is a struct that contains the structure for the database that is imported into gorm
+// If the field is not capitalized, it will not end up in the db
 type userCreds struct {
 	UID     string
 	Balance float64
@@ -44,12 +45,14 @@ func main() {
 		"DBNAME": "handegg",
 	}
 	// check env vars
-	for _, i := range optConfig {
+	for i := range optConfig {
 		switch os.Getenv(i) {
 		case "":
 			config[i] = optConfig[i]
 		default:
 			config[i] = os.Getenv(i)
+			//log.Tracef("%v: '%v'", i, os.Getenv(i))
+
 		}
 	}
 
