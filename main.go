@@ -13,7 +13,7 @@ import (
 // userCreds is a struct that contains the structure for the database that is imported into gorm
 // If the field is not capitalized, it will not end up in the db
 type userCreds struct {
-	UID     string
+	UID     string `gorm:"primaryKey"`
 	Balance float64
 }
 
@@ -25,6 +25,7 @@ var (
 )
 
 func main() {
+	log.SetCallDepth(4)
 	// load .env
 	err := godotenv.Load()
 	if err != nil {
@@ -70,5 +71,10 @@ func main() {
 	if err := db.AutoMigrate(&userCreds{}); err != nil {
 		log.Fatalln("DB failed automigration: ", err)
 	}
+
+	db.Create(userCreds{"TEST", 1234444})
+	var test []userCreds
+	db.Find(&test)
+	log.Traceln(test)
 
 }
