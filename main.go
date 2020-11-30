@@ -72,9 +72,6 @@ func main() {
 		log.Fatalln("DB failed automigration: ", err)
 	}
 
-	db.Create(userCreds{"TEST", 1234444})
-	var test []userCreds
-	db.Find(&test)
-	log.Traceln(test)
+
 
 }
